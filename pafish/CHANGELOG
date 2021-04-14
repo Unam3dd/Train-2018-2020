@@ -1,0 +1,185 @@
+
+v058
+
+- Bugfix release
+- Fix "LocalFree after advanced list" #49
+- Fix typo
+- Add Wpedantic
+
+v057
+
+- Fix "Failure to detect Xen" #47
+- Add hypervisor information
+
+v056
+
+- Added new checks
+	- IsNativeVhdBoot #46
+	- OS uptime check #45
+
+- Added a DNS request trace for each detection #43
+- Disabled check_hook_DeleteFileW_m1 because it causes FP in Win 8
+
+v055
+
+- Added new checks
+	- Neutrino bot bochs detection #40
+	- Qemu detection based on CPU brand string
+	- Bochs detections based on CPU brand string
+	- VMware detection based on network adapter name
+	- Minor refactor userland hook detection, added
+	  2 more functions to check.
+
+- Added cpu functions to query Processor Brand String
+- Some refactoring, specially main.c, making it easier
+  to add new checks.
+
+v054
+
+- Added new checks (Hacking Team antiVM)
+	- VirtualBox device identifiers using WMI
+	- VMware serial number using WMI
+	- HT's cuckoo evasion turned into detection
+	  (TLS_HOOK_INFO_RETADDR_SPACE address alloc check)
+- Fixes
+	- Fix #37 warning on MinGW linux
+
+- Contributors to this release
+	serializingme
+
+v053
+
+- Added new checks
+	- Systems with less than 1GB of memory
+	- Wine registry key HKCU\\SOFTWARE\\Wine
+	- VMware pseudo-devices
+	- VMware MAC addresses
+
+- Fixes
+	- Handle filesystem redirection in x86_64 systems
+	- Handle registry redirection in x86_64 systems
+	- A proper fix for Linux compilation
+
+- Contributors to this release
+	serializingme
+
+v052
+
+- Minor release to add two different NumberOfProcessors based detection used by
+  new Dyre malware version:
+	gensandbox_one_cpu()
+	gensandbox_one_cpu_GetSystemInfo()
+- Fixes #25 (compilation error in linux)
+
+v051
+
+- Minor release to add a new detection based on CPU information,
+  Checking the difference between CPU timestamp counters (rdtsc) forcing VM exit
+- gcc -O0 due to errors in low level functions caused by the
+  optimizations
+- Minor coding style changes
+
+v05
+
+- Added a new set of detections based on CPU information
+	- rdtsc timing detection
+	- cpuid vendor string
+	- cpuid hv bit
+- Added a new generic sandbox detection for sample.exe and malware.exe
+  in drives root
+- Added a new VirtualBox detection based on SystemBiosDate
+- Added more ports to Scsi in VMWare
+- Greatly reduced icon size
+
+- Bugfixes
+	- Restore CLI colors when finish
+
+- Code style
+	- Now CFLAGS includes -Wall -Wextra
+	- cppcheck scan
+	- With this, lots of code style changes and minor fixes
+	  have been done
+
+- Contributors for this release
+	Inaki Rodriguez
+	mlw.re
+	Sanchit Karve
+	Mikael Keri
+
+v04
+
+- Added new VirtualBox detections and system traces
+	- HKLM\\HARDWARE\\ACPI\\DSDT\\VBOX__
+	- HKLM\\HARDWARE\\ACPI\\FADT\\VBOX__
+	- HKLM\\HARDWARE\\ACPI\\RSDT\\VBOX__
+	- HKLM\\SYSTEM\\ControlSet001\\Services\\VBox*
+	- C:\\WINDOWS\\system32\\drivers\\VBox*
+	- C:\\WINDOWS\\system32\\vbox*
+	- C:\\program files\\oracle\\virtualbox guest additions\\
+	- MAC address starting with 08:00:27
+	- Pseudo devices (VBoxMiniRdrDN, VBoxTrayIPC)
+	- VBoxTray windows
+	- VBox network share
+	- VBox processes (vboxservice.exe, vboxtray.exe)
+- Added GetTickCount() sleep patching detection
+- Added new way to get disk size (GetDiskFreeSpaceExA)
+
+Developers:
+- Build system migrated to pure MinGW (make + gcc) + windres for resources
+- utils.c now contains repetitive functions
+- TRUE FALSE types defined in types.h, no more confusion when returning
+
+Contributions:
+- Thanks to Thorsten Sick (https://github.com/Thorsten-Sick) for it's
+  valuable contributions, most of this release is thanks to him.
+
+v03
+
+- Added disk size < 50 GB detection trick
+- Added ring3 hooks detection trick
+- Created files when detections match are more
+  accurate now
+- Sleep time in lack of mouse activity detection
+  increased to 1750 ms
+
+v025
+
+- New colors schema
+- Added file creation traces when detection to
+  follow them
+- Added one new detection for VirtualBox
+
+v024
+
+- From now, official pafish executables will be signed, readme for
+  more information
+
+v023
+
+- Added two new detections for generic sandboxes (username, file path)
+- Added one new detection for VMware (driver file)
+- Added one new detection for Qemu (reg key)
+
+v022
+
+- Added one new detection for Qemu
+
+v02
+
+- Now pafish writes a log file (pafish.log) to
+  easily track detections
+
+- Deleted one dummy detection for Sandboxie
+
+- Added two new detections for VirtualBox
+- Added one new detection for wine
+- Added three new detections for VMware
+- Added one new detection for generic sandboxes
+
+- Some coding style improvements
+- gcc optimization flag in compilation -O1
+
+v01
+
+- First version
+

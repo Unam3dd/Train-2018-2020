@@ -1,0 +1,6 @@
+datetime
+requests
+python-pydf
+bs4
+google
+wget
